@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
 
-	float speed = 30f;
-	float angle = 90f;
-	float angleSpeed = 0f;
+	public float speed = 30f;
+	public float angle = 90f;
+	public float angleSpeed = 0f;
+	public float damage = 10f;
+	public string targetTag;
 
 	void Start() {
+
 	}
 
 	public void Move(float t) {
@@ -18,8 +21,15 @@ public class Bullet : MonoBehaviour {
 
 	void Update () {
 		Move(Time.deltaTime);
-		if (transform.position.z > 22.5f || transform.position.z < -2.5f || transform.position.x > 10f || transform.position.x < -10f) {
+		if (transform.position.z > 25f || transform.position.z < -5f || transform.position.x > 15f || transform.position.x < -15f) {
 			Destroy(gameObject);
+		}
+	}
+		
+	void OnTriggerEnter(Collider other) {
+		if (other.tag == targetTag) {
+			other.gameObject.GetComponent<Enemy>().health -= damage;
+			Destroy(this.gameObject);
 		}
 	}
 }

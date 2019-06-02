@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour {
 
-	// Use this for initialization
+	public GameObject enemyPrefab;
+	float timer = 0f;
+	float fireRate = 2f;
+
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
-		
+		timer += Time.deltaTime;
+		fireRate = Mathf.Sin(0.25f * timer) + 2f;
+		if (timer >= fireRate) {
+			timer -= fireRate;
+			float randomZ = Random.Range(0f, 7f);
+			GameObject clone = Instantiate(enemyPrefab, new Vector3(0f, 0f, 23f + randomZ), Quaternion.identity);
+			clone.GetComponent<Enemy>().timer += randomZ;
+		}
 	}
 }
